@@ -2,7 +2,7 @@
 
 return [
     'adminEmail' => 'wangjian@ypiao.com',
-    'appName' => 'Analyze report',
+    'appName' => '玩票',
     'damaiHost' => 'https://piao.damai.cn',
     'yongleHost' => 'https://www.228.com.cn',
     'piaoniuHost' => 'https://www.piaoniu.com',

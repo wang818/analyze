@@ -3,8 +3,8 @@ ip: "192.168.10.10"
 #ip:"127.0.0.1"
 memory: 512
 cpus: 1
-hostname: analyze
-name: analyze
+hostname: 51wanpiao
+name: 51wanpiao
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -13,15 +13,15 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: "/Users/jean/project/analyze"
-      to: "/home/vagrant/analyze"
+    - map: "/Users/jean/project/51wanpiao"
+      to: "/home/vagrant/51wanpiao"
 
 sites:
-    - map: analyze.wangjian.com
-      to: "/home/vagrant/analyze/web/"
+    - map: www.51wanpiao.com
+      to: "/home/vagrant/51wanpiao/web/"
     
 databases:
-    - analyze
+    - 51wanpiao
 
 variables:
     - key: APP_ENV

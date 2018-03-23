@@ -62,26 +62,32 @@
 //                    ],
                     [
                         'label' => '项目管理',
-                        'active' => true,
                         'icon' => 'th-list',
                         'items' => [
-                            ['label' => '项目列表', 'url' => ['event/index']]
+                            ['label' => '项目列表', 'url' => ['event/index'], 'icon' => 'minus']
                         ]
                     ],
                     [
                         'label' => '财务管理',
                         'icon' => 'bitcoin',
-                        'active' => false,
                         'items' => [
-                            ['label' => '购票列表', 'url' => ['account/index']]
+                            ['label' => '购票列表', 'url' => ['account/index'], 'icon' => 'minus']
                         ]
                     ],
                     [
                         'label' => '售票管理',
-                        'icon' => 'bitcoin',
-                        'active' => false,
+                        'icon' => 'ticket',
                         'items' => [
-                            ['label' => '在售列表', 'url' => ['sale/index']]
+                            ['label' => '在售列表', 'url' => ['sale/index'], 'icon' => 'minus']
+                        ]
+                    ],
+                    [
+                        'label' => '权限管理',
+                        'icon' => 'users',
+                        'items' => [
+                            ['label' => '用户', 'url' => ['sale/index'], 'icon' => 'minus'],
+                            ['label' => '角色', 'url' => ['sale/index'], 'icon' => 'minus'],
+                            ['label' => '关联', 'url' => ['sale/index'], 'icon' => 'minus'],
                         ]
                     ]
                 ],
