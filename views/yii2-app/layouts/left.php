@@ -85,9 +85,9 @@
                         'label' => '权限管理',
                         'icon' => 'users',
                         'items' => [
-                            ['label' => '用户', 'url' => ['sale/index'], 'icon' => 'minus'],
-                            ['label' => '角色', 'url' => ['sale/index'], 'icon' => 'minus'],
-                            ['label' => '关联', 'url' => ['sale/index'], 'icon' => 'minus'],
+                            ['label' => '用户管理', 'url' => ['sale/index'], 'icon' => 'minus'],
+                            ['label' => '角色管理', 'url' => ['sale/index'], 'icon' => 'minus'],
+                            ['label' => '权限关联', 'url' => ['sale/index'], 'icon' => 'minus'],
                         ]
                     ]
                 ],
