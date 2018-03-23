@@ -75,6 +75,14 @@
                         'items' => [
                             ['label' => '购票列表', 'url' => ['account/index']]
                         ]
+                    ],
+                    [
+                        'label' => '售票管理',
+                        'icon' => 'bitcoin',
+                        'active' => false,
+                        'items' => [
+                            ['label' => '在售列表', 'url' => ['sale/index']]
+                        ]
                     ]
                 ],
             ]
