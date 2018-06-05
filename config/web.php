@@ -10,7 +10,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-        '@pr' => 'analyze',     // 数据库表前缀
+        '@pr' => '',     // 数据库表前缀
     ],
     'components' => [
         'request' => [
@@ -21,7 +21,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\AdminUser',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

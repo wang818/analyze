@@ -64,30 +64,31 @@
                         'label' => '项目管理',
                         'icon' => 'th-list',
                         'items' => [
-                            ['label' => '项目列表', 'url' => ['event/index'], 'icon' => 'minus']
+                            ['label' => '项目列表', 'url' => ['event/index', 'sort'=> '-id'], 'icon' => 'minus']
                         ]
                     ],
                     [
                         'label' => '财务管理',
                         'icon' => 'bitcoin',
                         'items' => [
-                            ['label' => '购票列表', 'url' => ['account/index'], 'icon' => 'minus']
+                            ['label' => '财务统计', 'url' => ['account/index'], 'icon' => 'minus'],
+                            ['label' => '购票列表', 'url' => ['ticket/index'], 'icon' => 'minus']
                         ]
                     ],
                     [
-                        'label' => '售票管理',
+                        'label' => '票务管理',
                         'icon' => 'ticket',
                         'items' => [
-                            ['label' => '在售列表', 'url' => ['sale/index'], 'icon' => 'minus']
+                            ['label' => '票列表', 'url' => ['sale/index'], 'icon' => 'minus']
                         ]
                     ],
                     [
                         'label' => '权限管理',
                         'icon' => 'users',
                         'items' => [
-                            ['label' => '用户管理', 'url' => ['sale/index'], 'icon' => 'minus'],
-                            ['label' => '角色管理', 'url' => ['sale/index'], 'icon' => 'minus'],
-                            ['label' => '权限关联', 'url' => ['sale/index'], 'icon' => 'minus'],
+                            ['label' => '用户管理', 'url' => ['user/index'], 'icon' => 'minus'],
+                            ['label' => '角色管理', 'url' => ['role/index'], 'icon' => 'minus'],
+                            ['label' => '权限关联', 'url' => ['rule/index'], 'icon' => 'minus'],
                         ]
                     ]
                 ],

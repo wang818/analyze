@@ -12,7 +12,7 @@ class Event extends \yii\db\ActiveRecord
 {
 
     public static function tableName(){
-        return "{{event}}";
+        return "event";
     }
     /**
      * @return array the validation rules.
@@ -22,7 +22,7 @@ class Event extends \yii\db\ActiveRecord
         return [
             [['name', 'damai_id', 'yongle_id', 'piaoniu_id', 'xishiqu_id', 'tking_id', 'youpiao_id', 'start_time', 'end_time', 'is_index'], 'required'],
             [['id', 'damai_id', 'yongle_id', 'piaoniu_id', 'youpiao_id'], 'integer'],
-            [['xishiqu_id', 'tking_id'], 'string', 'max' => 50],
+            [['xishiqu_id', 'tking_id', 'youpiao_third_id'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 200],
             [['note'], 'string', 'max' => 255]
         ];
@@ -38,6 +38,7 @@ class Event extends \yii\db\ActiveRecord
             'xishiqu_id' =>'西十区ID',
             'tking_id' =>'摩天轮ID',
             'youpiao_id' =>'有票ID',
+            'youpiao_third_id' => '有票加密ID',
             'start_time' =>'演出开始时间',
             'end_time' =>'演出结束时间',
             'is_index' =>'是否首页显示',

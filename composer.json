@@ -20,7 +20,10 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "laravel/homestead": "^7.0",
         "dmstr/yii2-adminlte-asset": "^2.1",
-        "2amigos/yii2-date-time-picker-widget": "~1.0"
+        "2amigos/yii2-date-time-picker-widget": "~1.0",
+        "linslin/yii2-curl": "*",
+        "php-curl-class/php-curl-class": "^8.0",
+        "paquettg/php-html-parser": "^1.7"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
