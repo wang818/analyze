@@ -2,10 +2,10 @@
 $this->title = "票档售价列表";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h3><?=$model->event->name?></h3>
+<h3><?=$event_info->name?></h3>
 <?php
-    if (count($list_arr) > 0){
-        foreach ($list_arr as $item) {
+    if (count($last_arr) > 0){
+        foreach ($last_arr as $item) {
             ?>
             <div class="panel panel-inverse" data-sortable-id="table-basic-6">
                 <div class="panel-heading">
@@ -25,22 +25,33 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="active">
-                            <td><?=$source?></td>
-                            <?php
-                            foreach ($item['price_list'] as $price){
-                                if (isset($price['price'])){
-                                    $priceOne = $price['price'];
-                                } else {
-                                    $priceOne = 0;
-                                }
+                        <?php
+                            foreach ($item['price_list'] as $priceList){
                                 ?>
-                                <td><?=$priceOne?></td>
+                                <tr class="active">
+                                    <td><?php
+                                        if ($priceList['source'] == Yii::$app->params['platform']['ypiao']) echo '有票';
+                                        if ($priceList['source'] == Yii::$app->params['platform']['piaoniu']) echo '票牛';
+                                        if ($priceList['source'] == Yii::$app->params['platform']['tking']) echo '摩天轮';
+                                        ?></td>
+                                    <?php
+                                    foreach ($priceList['price_list'] as $price){
+                                        if (isset($price['price'])){
+                                            $priceOne = $price['price'];
+                                        } else {
+                                            $priceOne = 0;
+                                        }
+                                        ?>
+                                        <td><?=$priceOne?></td>
+                                        <?php
+                                    }
+
+                                    ?>
+                                </tr>
                                 <?php
                             }
+                        ?>
 
-                            ?>
-                        </tr>
                         </tbody>
                     </table>
                 </div>

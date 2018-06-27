@@ -53,7 +53,7 @@ $this->registerCss($css);
                 if ($model->xishiqu_id){
                     $valueArr = explode(',', $model->xishiqu_id);
                     if (count($valueArr) > 0) {
-                        $str .= Html::a('西十区', \Yii::$app->params['xishiquHost'] . '/event/' . $valueArr[0] . '/all/p1.html?specialId=' . $valueArr[1], ['target' => '_balnk']). " ";
+                        $str .= Html::a('西十区', \Yii::$app->params['xishiquHost'] . '/event/' . $valueArr[0] . '/all/p1.html', ['target' => '_balnk']). " ";
                     }
                 }
                 if ($model->youpiao_id)

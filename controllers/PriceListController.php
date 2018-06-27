@@ -20,28 +20,34 @@ class PriceListController extends \yii\web\Controller
         if (!$sessionId) {
             $this->goBack();
         }
-        $sessionInfo = Session::findOne($sessionId);
 
-        switch ($sessionInfo->source){
-            case \Yii::$app->params['platform']['ypiao']:
-                $source = '有票';
-                $listArr = $this->getYpiaoPriceList($sessionInfo);
-                break;
-            case \Yii::$app->params['platform']['piaoniu']:
-                $source = '票牛';
-                $listArr = $this->getPiaoniuPriceList($sessionInfo);
-                break;
-            case \Yii::$app->params['platform']['tking']:
-                $source = '摩天轮';
-                $listArr = $this->getTkingPriceList($sessionInfo);
-                break;
-            default:
-                $source = '其他';
-                $this->goBack();
-                break;
+        $sessionIds = explode(',', $sessionId);
+
+        // 获取对比数组
+        $compareArr = [];
+        foreach ($sessionIds as $sessionId){
+            $sessionInfo = Session::findOne($sessionId);
+            switch ($sessionInfo->source){
+                case \Yii::$app->params['platform']['ypiao']:
+                    $listArr = $this->getYpiaoPriceList($sessionInfo);
+                    break;
+                case \Yii::$app->params['platform']['piaoniu']:
+                    $listArr = $this->getPiaoniuPriceList($sessionInfo);
+                    break;
+                case \Yii::$app->params['platform']['tking']:
+                    $listArr = $this->getTkingPriceList($sessionInfo);
+                    break;
+                default:
+                    $this->goBack();
+                    break;
+            }
+            $compareArr[]= $listArr;
         }
+        $lastArr = $this->compareArr($compareArr);
 
-        return $this->render('index', ['model' => $sessionInfo, 'list_arr' => $listArr, 'source' => $source]);
+        $eventInfo = $sessionInfo->event;
+
+        return $this->render('index', ['event_info' => $eventInfo, 'last_arr' => $lastArr]);
     }
 
     protected function getTkingPriceList($sessionInfo){
@@ -57,11 +63,14 @@ class PriceListController extends \yii\web\Controller
                 ];
                 $ones[] = $_one;
             }
+
+            $priceList = [];
+            $priceList[] = ['source' => $sessionInfo->source, 'price_list' => $ones];
+
             $_priceOne = [
-                'id' => $priceOne->seatPlanOID,
                 'name' => $priceOne->originalPrice . $priceOne->comments,
                 'origin_price' => $priceOne->originalPrice,
-                'price_list' => $ones
+                'price_list' => $priceList
             ];
 
             $listArr[]= $_priceOne;
@@ -80,16 +89,17 @@ class PriceListController extends \yii\web\Controller
         $ypiao = new Ypiao($sessionInfo->event->youpiao_id);
         $ypiaoEvent = $ypiao->getEventData();
         $ypiaoSessionPriceList = $ypiao->getSessionDataBySecretSessionId($sessionInfo->third_session_id);
-//                var_dump($ypiaoSessionPriceList);
         if (count($ypiaoEvent) > 0){
             foreach ($ypiaoSessionPriceList as $key => $item) {
                 $price = $ypiao->getPriceBySecretPriceId($sessionInfo->third_session_id, $item->id);
 
+                $priceList = [];
+                $priceList[] = ['source' => $sessionInfo->source, 'price_list' => $price];
+
                 $listOne = [];
-                $listOne['id'] = $item->id;
                 $listOne['name'] = $item->name;
-                $listOne['origin_price'] = $item->price;
-                $listOne['price_list'] = $price;
+                $listOne['origin_price'] = (float)($item->price);
+                $listOne['price_list'] = $priceList;
 
                 $listArr[]= $listOne;
             }
@@ -100,28 +110,74 @@ class PriceListController extends \yii\web\Controller
     protected function getPiaoniuPriceList($sessionInfo){
         $piaoniu = new Piaoniu($sessionInfo->event->piaoniu_id);
         $priceList = $piaoniu->getPriceList($sessionInfo->third_session_id);
-//                var_dump($priceList);
         if (count($priceList) > 0){
             foreach ($priceList as $priceOne){
                 $price = $piaoniu->getSellPriceList($sessionInfo->third_session_id, $priceOne->id);
                 $_price = [];
                 foreach ($price as $one){
+                    if (is_null($one)) continue;
                     $_one = [
                         'price' => $one->salePrice,
                         'seller' => $one->salerName
                     ];
                     $_price []= $_one;
                 }
+
+                $priceList = [];
+                $priceList[]= ['source' => $sessionInfo->source, 'price_list' => $_price];
+
                 $listOne = [];
-                $listOne['id'] = $priceOne->id;
                 $listOne['name'] = $priceOne->specification;
                 $listOne['origin_price'] = $priceOne->originPrice;
-                $listOne['price_list'] = $_price;
+                $listOne['price_list'] = $priceList;
 
                 $listArr[]= $listOne;
             }
         }
         return $listArr;
+    }
+
+    /**
+     * @param $compareArr
+     * @return mixed
+     * 形成对比数据
+     */
+    protected function compareArr($compareArr){
+        if (count($compareArr) == 1){
+            return $compareArr[0];
+        }
+
+        // 获取到索引origin_price
+        $bigCount = 0;
+        $bigIndex = -1;
+        foreach ($compareArr as $i => $compare){
+            if (count($compare) > $bigCount){
+                $bigIndex = $i;
+                $bigCount = count($compare);
+            }
+        }
+        if ($bigIndex <= -1){
+            return [];
+        }
+        // 确定以索引最多的数据为初始遍历模型
+        $foreachArr = $compareArr[$bigIndex];
+        unset($compareArr[$bigIndex]);
+        $comparedArr = [];
+        foreach ($foreachArr as $key => $arr){
+            if (!in_array($arr['origin_price'], $comparedArr)){
+                foreach ($compareArr as $compareArrOne){
+                    foreach ($compareArrOne as $k => $item){
+                        if ($item['origin_price'] == $arr['origin_price']){
+                            // 需要合并list
+                            $foreachArr[$key]['price_list'][]= $item['price_list'][0];
+                            break;
+                        }
+                        $comparedArr[]= $arr['origin_price'];
+                    }
+                }
+            }
+        }
+        return $foreachArr;
     }
 
 }

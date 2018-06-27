@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Session;
+use app\models\Event;
 
 class SessionController extends \yii\web\Controller
 {
@@ -16,7 +17,8 @@ class SessionController extends \yii\web\Controller
         $model = Session::find()->where(['event_id' => $eventId])
         ->asArray()
         ->all();
-        return $this->render('index', ['model' => $model]);
+        $eventModel = Event::find()->where(['id' => $eventId])->one();
+        return $this->render('index', ['model' => $model, 'event_model' => $eventModel]);
     }
 
 }

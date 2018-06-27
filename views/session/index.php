@@ -37,7 +37,7 @@ $js = <<<JS
 JS;
 $this->registerJS($js);
 ?>
-
+<h3><?=$event_model->name?></h3>
 <div id="session_list">
     <?php
     foreach ($model as $session){
